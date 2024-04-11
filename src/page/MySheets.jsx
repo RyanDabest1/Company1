@@ -3,7 +3,7 @@ import Stack from "@mui/material/Stack";
 import NavBar from "../components/HomePage/NavBar";
 import SheetCard from "../components/MySheets/SheetCard";
 import { getSheets } from "../functions/funct";
-
+import { useNavigate } from "react-router-dom";
 
 
 let data;
@@ -11,8 +11,8 @@ let sheets;
 
 const MySheets = () => {
   // Dummy sheet data for demonstration (replace with data from the database)
-  
-  const [loading, setLoading] = useState(true)
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   // Fetch sheet data from the database using useEffect
   useEffect(() => {
@@ -24,7 +24,11 @@ const MySheets = () => {
         console.log(sheets)
         setLoading(false);
     }
-    startUp()
+    if(localStorage.getItem("isLoggedIn")){
+      startUp()
+    } else {
+      navigate("/Login")
+    }
   }, []);
 
   return (

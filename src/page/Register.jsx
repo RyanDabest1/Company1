@@ -1,16 +1,27 @@
 import React from "react";
 import { useState } from "react";
-import '../index.css';
 import {signUp} from '../functions/funct'
 import { handleInputSignUp } from "../functions/funct";
-
+import { useNavigate } from "react-router-dom";
+import Alert from '@mui/material/Alert';
+import { useEffect } from "react";
 const Login = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [successful, setSuccessful] = useState(false);
+  const [fail, setFail] = useState(false);
 
 
   async function handleClick(e){
     e.preventDefault();
-    await handleInputSignUp(e, signUp)
+    await handleInputSignUp(e, signUp, setSuccessful, setFail, setLoading, navigate)
   }
+
+  useEffect(() => {
+    if(localStorage.getItem("isLoggedIn")){
+      navigate("/")
+    }
+  }, [])
 
   return (
 
@@ -75,6 +86,21 @@ const Login = () => {
         </div>
         </form>
       </div>
+      {loading && (
+      <Alert variant="filled" severity="info" className="absolute top-5">
+        Registering..
+      </Alert>
+    )}
+    {successful && (
+      <Alert variant="filled" severity="success" className="absolute top-5">
+        Register successful.
+      </Alert>
+    )}
+    {fail && (
+      <Alert variant="filled" severity="error" className="absolute top-5">
+        Register failed
+      </Alert>
+    )}
     </div>
   )
 }

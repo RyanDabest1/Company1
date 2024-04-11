@@ -1,0 +1,33 @@
+.dashboard-container {
+    display: flex;
+  }
+  
+  .nav-bar , .right-content {
+    width: 200px; /* Adjust width as needed */
+    background-color: #333; /* Example background color */
+  }
+  
+  .main-content {
+    flex: 1;
+    display: flex;
+  }
+  
+  .middle-content{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .left-content {
+    background-color: #f0f0f0; /* Example background color */
+  }
+  
+  .middle-content {
+    background-color: #e0e0e0; /* Example background color */
+  }
+  
+  .right-content {
+    background-color: #d0d0d0; /* Example background color */
+  }
+  

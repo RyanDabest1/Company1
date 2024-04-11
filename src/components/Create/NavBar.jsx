@@ -16,6 +16,7 @@ import Logo from '../assets/Logo.png'
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { getUser } from '../utils/userData';
+import { useNavigate } from "react-router-dom";
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -27,6 +28,7 @@ function NavBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [isLoggedIn, setLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -52,10 +54,12 @@ function NavBar() {
     username = userData.username;
     }
     }
+  } else {
+    navigate("/Register")
   }
   }, [])
 
-  const pages = isLoggedIn ? ["MySheets", "create"] : ["Login", "Register"]
+  const pages = isLoggedIn ? ["MySheets"] : ["Login", "Register"]
 
 
   return (

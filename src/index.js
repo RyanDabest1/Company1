@@ -8,6 +8,7 @@ import Home from './page/Home'
 import CreateSheet from './page/CreateSheet';
 import MySheets from './page/MySheets';
 import Calculate from './page/Calculate'
+import UserDashboard from './page/UserDashboard'
 const router = createBrowserRouter([
   {
     path : "/Calculate",
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path : '/MySheets',
     element : <MySheets/>
+  },
+  {
+    path: '/UserDashboard',
+    element : <UserDashboard/>
   },
   {
     path : '/',

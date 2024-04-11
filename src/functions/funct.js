@@ -1,7 +1,23 @@
-let api = "https://auntyayeserver.onrender.com";
+let api = "http://localhost:3001";
+import { fetchCredentials } from "../components/utils/userData";
 
+//Get credentials
 
-export async function signUp(username, password, email){
+export async function getCredentials(userId){
+  try{
+    const res = await fetch(`${api}/getCredentials?userId=${userId}`, {
+      method : "GET",
+      headers : {"Content-Type" : "application/json"}
+    })
+    if (!res.ok) return false;
+    return res.json()
+  } catch (error){
+    console.log(error)
+  }
+}
+
+//Login and signup
+export async function signUp(username, password, email, setSuccessful, setFail, setLoading, navigate){
   try {
     const res = await fetch(`${api}/register`,  {
         method : "POST",
@@ -9,31 +25,52 @@ export async function signUp(username, password, email){
         body: JSON.stringify({ username, email, password }),
     })
   
-    if (!res.ok) return false;
-    const user = await res.json();
-  return user;
+    if (!res.ok) {
+      setLoading(false);
+      setFail(true);
+      return false;
+    }
+    
+  const user = await res.json();
+  setLoading(false);
+  setFail(false);
+  setSuccessful(true);
+  setTimeout(5000, navigate("/Login"))
   } catch(error) {
+    setLoading(false);
+    setFail(true);
+
     console.error("Error signing up:", error);
     return false;
 }
 }
 
-export async function login(username, password){
+export async function login(username, password, setSuccessful, setFail, setLoading, navigate){
   try{
     const res = await fetch(`${api}/login`, {
       method : "POST",
       headers : {"Content-Type": "application/json"},
       body: JSON.stringify({username, password})
     })
-    if (!res.ok) return false;
+    if (!res.ok) { 
+      setLoading(false);
+      setFail(true);
+      return false; 
+    }
     const userData = await res.json();
     localStorage.setItem('token', userData.token)
     localStorage.setItem('userId', userData.userId)
-    console.log(userData)
+    localStorage.setItem('isLoggedIn', true);
+    fetchCredentials(userData)
+    setLoading(false);
+    setFail(false);
+    setSuccessful(true);
+    setTimeout(5000, navigate("/"));    
   }
 
   catch(error) {
     console.error("Error loggin in:", error)
+    setFail(true);
     return false
   }
 }
@@ -69,18 +106,18 @@ export async function getSheets(userId, ){
   }
 }
 
-export async function handleInputSignUp(e, callBack){
+export async function handleInputSignUp(e, callBack, setSuccessful, setFail, setLoading, navigate){
   e.preventDefault();
   let email = e.target.email.value;
   let password = e.target.password.value;
   let username = e.target.username.value
-  await callBack(username, password, email)
+  await callBack(username, password, email, setSuccessful, setFail, setLoading, navigate)
 }
 
-export async function handleInputLogin(e, callBack){
+export async function handleInputLogin(e, callBack, setSuccessful, setFail, setLoading, navigate){
   let username = e.target.username.value;
   let password = e.target.password.value;
-  await callBack(username, password);
+  await callBack(username, password, setSuccessful, setFail, setLoading, navigate);
 }
 
 export async function handleInputCreateSheet(name, userId){
