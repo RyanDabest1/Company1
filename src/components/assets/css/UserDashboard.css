@@ -1,33 +1,64 @@
 .dashboard-container {
-    display: flex;
+    display: flex; 
   }
   
   .nav-bar , .right-content {
     width: 200px; /* Adjust width as needed */
-    background-color: #333; /* Example background color */
+    background-color: #00000000; /* Example background color */
   }
   
   .main-content {
     flex: 1;
     display: flex;
+    gap:10px;
   }
   
   .middle-content{
+    margin: 20px;
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column; /* Arrange children vertically */
+
   }
+
+.lower-middle {
+  margin: 5%;
+  flex: 1; /* Equal height for both sections */
+  width: 80%; /* Adjust width as needed */
+  flex-direction: row;
+  display: flex;
+  gap : 10%;
+  flex-wrap: wrap;
+}
   
   .left-content {
     background-color: #f0f0f0; /* Example background color */
   }
   
-  .middle-content {
-    background-color: #e0e0e0; /* Example background color */
-  }
-  
+
   .right-content {
     background-color: #d0d0d0; /* Example background color */
   }
   
+  .p-inputtext{
+    border : 1px solid black;
+    border-radius: 10px;
+  }
+  .p-datepicker{
+    width: 300px;
+    padding: 5px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+
+  }
+
+  .leftMid-content,
+.rightMid-content {
+  flex: 1; /* Equal width for both sections */
+  width: 60%;
+  margin: 5%;
+  
+}

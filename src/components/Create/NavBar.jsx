@@ -59,7 +59,7 @@ function NavBar() {
   }
   }, [])
 
-  const pages = isLoggedIn ? ["MySheets"] : ["Login", "Register"]
+  const pages = isLoggedIn ? ["UserDashboard", "MySheets"] : ["Login", "Register"]
 
 
   return (

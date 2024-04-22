@@ -55,7 +55,7 @@ function NavBar() {
   }
   }, [])
 
-  const pages = isLoggedIn ? ["MySheets", "create", "UserDashboard"] : ["Login", "Register"]
+  const pages = isLoggedIn ? ["MySheets", "create", "UserDashboard", "MergedSheets"] : ["Login", "Register"]
 
 
   return (
@@ -95,6 +95,9 @@ function NavBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
+                <MenuItem key={"Home"} onClick={handleCloseNavMenu} href={`/`} sx={{color: 'black' }}>
+                  <Typography textAlign="center">Home</Typography>
+                </MenuItem>
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu} href={`/${page}`} sx={{color: 'black' }}>
                   <Typography textAlign="center">{page}</Typography>
@@ -120,6 +123,7 @@ function NavBar() {
           >
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+        
             {pages.map((page) => (
               <Button
                 key={page}

@@ -8,7 +8,9 @@ import Home from './page/Home'
 import CreateSheet from './page/CreateSheet';
 import MySheets from './page/MySheets';
 import Calculate from './page/Calculate'
-import UserDashboard from './page/UserDashboard'
+import UserDashboard from './page/UserDashboard';
+import MergedSheets from './page/MergedSheets';
+import MergedView from './page/MergedView';
 const router = createBrowserRouter([
   {
     path : "/Calculate",
@@ -34,6 +36,14 @@ const router = createBrowserRouter([
   {
     path: '/UserDashboard',
     element : <UserDashboard/>
+  },
+  {
+    path : '/MergedSheets',
+    element: <MergedSheets/>
+  },
+  {
+    path : '/MergedView',
+    element : <MergedView/>
   },
   {
     path : '/',

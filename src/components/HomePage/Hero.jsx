@@ -11,7 +11,6 @@ const moveInFromRight = keyframes`
     transform: translateX(0);
   }
 `;
-let sentence = "Welcome To The Sheets!".split("")
 
 const WhiteContainer = styled('div')({
   background: 'rgba(255, 255, 255, 0.2)',
