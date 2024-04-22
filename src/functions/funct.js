@@ -1,4 +1,4 @@
-let api = "http://localhost:3001";
+let api = "https://auntyayeserver.onrender.com";
 import { fetchCredentials } from "../components/utils/userData";
 
 //Get credentials
