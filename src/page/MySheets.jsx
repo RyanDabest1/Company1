@@ -4,6 +4,7 @@ import NavBar from "../components/HomePage/NavBar";
 import SheetCard from "../components/MySheets/SheetCard";
 import { getSheets } from "../functions/funct";
 import { useNavigate } from "react-router-dom";
+import Alert from '@mui/material/Alert';
 
 
 let data;
@@ -13,6 +14,7 @@ const MySheets = () => {
   // Dummy sheet data for demonstration (replace with data from the database)
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+
 
   // Fetch sheet data from the database using useEffect
   useEffect(() => {
@@ -48,6 +50,7 @@ const MySheets = () => {
       </div>
     )}
     </Stack>
+   
   </>
   );
 };

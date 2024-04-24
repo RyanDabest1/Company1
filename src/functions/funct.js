@@ -77,17 +77,43 @@ export async function login(username, password, setSuccessful, setFail, setLoadi
 
 //Sheets Related (Get, Create, Delete)
 
-export async function createSheet(userId, sheetName){
+export async function deleteSheet(calcId, userId){
+  try{
+    const res = await fetch(`${api}/deleteSheet?calcId=${calcId}&userId=${userId}` ,{
+      method : "DELETE",
+      headers : {"Content-Type": "application/json"},
+    })
+    if(!res.ok) return false;
+    return true;
+  } catch (error) {
+    console.log(error);
+  }
+
+
+}
+export async function createSheet(userId, sheetName, Date, setSuccessful, setFail, setLoading, navigate){
   try{
     const res = await fetch(`${api}/createSheet`,{
       method : "POST",
       headers : {"Content-Type": "application/json"},
-      body : JSON.stringify({userId, sheetName})
+      body : JSON.stringify({userId, sheetName, date : Date})
     })
 
-    if (!res.ok) return false;
+    if (!res.ok) {
+      setFail(true);
+      setSuccessful(false);
+      setLoading(False);
+      return false;
+    } else {
+    
     const outPut = await res.json();
     console.log(outPut)
+    setLoading(false);
+    setFail(false);
+    setSuccessful(true);
+
+    navigate("/MySheets")
+    }
   } catch(error) {
     console.log(error)
     return false;
@@ -155,9 +181,9 @@ export async function handleInputLogin(e, callBack, setSuccessful, setFail, setL
   await callBack(username, password, setSuccessful, setFail, setLoading, navigate);
 }
 
-export async function handleInputCreateSheet(name, userId){
-  console.log(name);
-  createSheet(userId, name)
+export async function handleInputCreateSheet(name, userId, Date, setSuccessful, setFail, setLoading, navigate){
+
+  createSheet(userId, name, Date, setSuccessful, setFail, setLoading, navigate)
 }
 
 

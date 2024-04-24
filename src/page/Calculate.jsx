@@ -6,7 +6,9 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { getCalculationData, saveCalculationData } from '../functions/funct.js';
 import { useNavigate } from 'react-router-dom';
+import Alert from '@mui/material/Alert';
 
+let total = 0;
 const Calculate = () => {
     const navigate = useNavigate();
     const [gridApi, setGridApi] = useState(null);
@@ -14,6 +16,10 @@ const Calculate = () => {
     const [calcId, setCalcId] = useState(null);
     const [rowData, setRowData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [successful, setSuccessful] = useState(false);
+    const [working, setWorking] = useState(false);
+    const [fail, setFail] = useState(false);
 
     const columnDefs = [
         { headerName: 'Product Name', field: 'name', editable: false },
@@ -28,6 +34,14 @@ const Calculate = () => {
         sortable: true,
         filter: true
     };
+
+    function calculateTotal(){
+        rowData.map(product => {
+            total += product.price * product.quantity;
+    });
+    setTotalPrice(total);
+    total = 0;
+}
 
     useEffect(() => {
         async function getData() {
@@ -66,19 +80,28 @@ const Calculate = () => {
 
     window.onbeforeunload = function() {
         localStorage.removeItem("calcId");
-        return '';
+        window.onbeforeunload = null;
       };
 
     const handleSaveClick = async () => {
         try {
           console.log(rowData)
+          setWorking(true);
             const success = await saveCalculationData(calcId, rowData);
             if (success) {
-                console.log('Calculation data saved successfully');
+                setWorking(false);
+                setFail(false);
+                setSuccessful(true);
             } else {
+                setWorking(false);
+                setSuccessful(false);
+                setFail(true);
                 console.error('Failed to save calculation data');
             }
         } catch (error) {
+            setWorking(false);
+                setSuccessful(false);
+                setFail(true);
             console.error('Error saving calculation data:', error);
         }
     };
@@ -88,7 +111,7 @@ const Calculate = () => {
             <Stack spacing={3} alignItems="center">
                 <NavBar />
                 {!loading && (
-                    <div className="ag-theme-alpine" style={{ height: 400, width: '75%' }}>
+                    <div className="ag-theme-alpine" style={{ height: 490, width: '75%' }}>
                         <AgGridReact
                             columnDefs={columnDefs}
                             rowData={rowData}
@@ -99,7 +122,27 @@ const Calculate = () => {
                     </div>
                 )}
                 <Button variant='contained' onClick={handleSaveClick}>Save</Button>
+                <Button variant='contained' onClick={() => {calculateTotal()}}>
+                    Get Total
+                    </Button>
+
+                <h1>Total : {totalPrice}</h1>
             </Stack>
+            {working && (
+      <Alert variant="filled" severity="info" className="absolute bottom-5">
+        Saving your data...
+      </Alert>
+    )}
+    {successful && (
+      <Alert variant="filled" severity="success" className="absolute bottom-5">
+       Save successful!
+      </Alert>
+    )}
+    {fail && (
+      <Alert variant="filled" severity="error" className="absolute bottom-5">
+        Failed to save..
+      </Alert>
+    )}
         </div>
     );
 };
