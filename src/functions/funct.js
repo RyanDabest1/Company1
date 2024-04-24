@@ -83,8 +83,9 @@ export async function deleteSheet(calcId, userId){
       method : "DELETE",
       headers : {"Content-Type": "application/json"},
     })
-    if(!res.ok) return false;
+    if(!res.ok) {return false} else {;
     return true;
+    }
   } catch (error) {
     console.log(error);
   }
