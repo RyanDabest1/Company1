@@ -24,7 +24,7 @@ function SheetCard({sheetName, id}) {
           <>
         <Button variant="contained" style={{ marginRight: '8px' }}>Show Data</Button>
         <Button variant="contained" color="primary" id={id} onClick={() => {assignCurrentCalculation(id, userId)}} href='/Calculate'>Calculate</Button>
-        <Button variant="contained" style={{ marginLeft: '8px' }} id={id} color="error" onClick={() => { if(deleteSheet(id, userId)){
+        <Button variant="contained" style={{ marginLeft: '8px' }} id={id} color="error" onClick={async() => { if( await deleteSheet(id, userId)){
           window.location.reload();
         }}}>Delete</Button>
         </>
