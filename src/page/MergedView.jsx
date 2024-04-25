@@ -77,9 +77,11 @@ const MergedView = () => {
     window.onbeforeunload = function() {
         if(localStorage.getItem("calcId")){
         localStorage.removeItem("calcId");
+        window.onbeforeunload = null;
         return "" ;
         } else {
-            return "";
+            window.onbeforeunload = null;
+            return ""; 
         }
       };
 

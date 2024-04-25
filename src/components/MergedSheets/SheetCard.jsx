@@ -5,7 +5,18 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { assignCurrentCalculation } from '../../functions/funct';
 import { useNavigate } from 'react-router-dom';
+import { deleteMergedSheet } from '../../functions/funct';
+import { useEffect, useState } from 'react';
+let userId;
+
 function SheetCard({startDate, endDate , id}) {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    userId = localStorage.getItem("userId")
+    console.log(userId)
+    setLoading(false);
+  }, [])
+
   const navigate = useNavigate();
     startDate = new Date(startDate);
     endDate = new Date(endDate);
@@ -25,7 +36,14 @@ function SheetCard({startDate, endDate , id}) {
         <Typography variant="h5" component="div">
             ({simplifiedStart}) to ({simplifiedEnd})
         </Typography>
+        { loading ? <>Loading..</> : (
+          <>
         <Button variant="contained" color="primary" id={id} onClick={ async () => { await assignCurrentCalculation(id); navigate("/MergedView") }}>View</Button>
+        <Button variant="contained" style={{ marginLeft: '8px' }} id={id} color="error" onClick={async() => { if(await deleteMergedSheet(id,userId)  ){
+          window.location.reload();
+        }}}>Delete</Button>
+        </>
+      )}
       </CardContent>
     </Card>
   );

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { getCalculationData, saveCalculationData } from '../functions/funct.js';
+import { getCalculationData, saveCalculationData, getSheetInfo } from '../functions/funct.js';
 import { useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 
@@ -20,6 +20,8 @@ const Calculate = () => {
     const [successful, setSuccessful] = useState(false);
     const [working, setWorking] = useState(false);
     const [fail, setFail] = useState(false);
+    const [sheetname, setSheetName] = useState("");
+    const [date, setDate] = useState(null);
 
     const columnDefs = [
         { headerName: 'Product Name', field: 'name', editable: false },
@@ -52,6 +54,10 @@ const Calculate = () => {
                 ...product,
                 totalPrice: product.price * product.quantity // Calculate initial total price
             })));
+            const info = await getSheetInfo(localStorage.getItem("userId"), localStorage.getItem('calcId'))
+            const {sheetName, createdAt} = info;
+            setSheetName(sheetName);
+            setDate(createdAt);
             setLoading(false);
         }
         if(localStorage.getItem("calcId")){
@@ -111,6 +117,8 @@ const Calculate = () => {
             <Stack spacing={3} alignItems="center">
                 <NavBar />
                 {!loading && (
+                    <>
+                 <h1>Sheet name : {sheetname}, Created At : {date}</h1>
                     <div className="ag-theme-alpine" style={{ height: 490, width: '75%' }}>
                         <AgGridReact
                             columnDefs={columnDefs}
@@ -120,6 +128,7 @@ const Calculate = () => {
                             onCellValueChanged={onCellValueChanged}
                         />
                     </div>
+                    </>
                 )}
                 <Button variant='contained' onClick={handleSaveClick}>Save</Button>
                 <Button variant='contained' onClick={() => {calculateTotal()}}>

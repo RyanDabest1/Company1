@@ -76,7 +76,20 @@ export async function login(username, password, setSuccessful, setFail, setLoadi
 }
 
 //Sheets Related (Get, Create, Delete)
+export async function deleteMergedSheet(calcId, userId){
+  try{
+    const res = await fetch(`${api}/deleteMergedSheet?calcId=${calcId}&userId=${userId}` ,{
+      method : "DELETE",
+      headers : {"Content-Type": "application/json"},
+    })
+    if(!res.ok) {return false} else {;
+    return true;
+    }
+  } catch (error) {
+    console.log(error);
+  }
 
+}
 export async function deleteSheet(calcId, userId){
   try{
     const res = await fetch(`${api}/deleteSheet?calcId=${calcId}&userId=${userId}` ,{
@@ -161,6 +174,20 @@ export async function getRecentSheets(userId){
     const sheets = await res.json();
     return sheets;
   } catch (error){
+    console.log(error)
+  }
+}
+
+export async function getSheetInfo(userId, calcId){
+  try{
+    const res = await fetch(`${api}/getSheetInfo?calcId=${calcId}&userId=${userId}`, {
+      method : "GET",
+      headers : {"Content-Type" : "application/json"}
+    })
+    if(!res.ok) return false;
+    const data = await res.json();
+    return data;
+  } catch(error){
     console.log(error)
   }
 }
